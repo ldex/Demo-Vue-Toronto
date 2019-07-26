@@ -1,29 +1,13 @@
-# demovue
+# Vue Demo App
 
-## Project setup
-```
-npm install
-```
+Demo Project part of <a href="https://vue.ac" target="_blank">Vue Academy Workshop</a>.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Installation
 
-### Compiles and minifies for production
-```
-npm run build
-```
+You need to restore the npm dependencies first:  
+Run `npm install`
 
-### Run your tests
-```
-npm run test
-```
+## Try it!
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Run `npm run serve` for a dev server.  
+The app is running on `http://localhost:10001/` and will automatically reload if you change any of the source files.

@@ -1,0 +1,68 @@
+<template>
+  <div>
+    <section v-if="error">
+      {{error.message}}
+    </section>
+    <section v-else>
+      <div v-if="loading">
+          <h2>Loading...</h2>
+      </div>
+      <div v-else>
+        <h2>{{product.name}}</h2>
+        <img :src="product.imageUrl ? product.imageUrl : 'https://placeimg.com/200/200/tech'" width="200" style="float:right" />
+        <h3>{{product.description}}</h3>
+        <p>Price: {{product.price}}</p>
+        <p>Fixed price? {{product.fixedPrice}}</p>
+        <p>Discontinued? {{product.discontinued}}</p>
+        <p>Modified date: {{product.modifiedDate | formatDate('YYYY/MM/DD hh:mm') }}</p>        
+        <button @click="onDelete(product.id)">Delete</button>      
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapState, mapActions } from 'vuex'
+import vuetifyToast from 'vuetify-toast'
+
+    export default {
+        data () {
+            return {
+                error: null,
+                loading: false
+            }
+        },
+        computed: {
+            ...mapState(['product']), // map `this.product` to `this.$store.state.product`
+        },
+        methods: {
+            onDelete(id) {
+                if(window.confirm('Are you sure ?')) {        
+                    this.$store.dispatch('deleteProduct', id)
+                    .then(() => {        
+                        vuetifyToast.success('The product has been deleted.');
+                        this.$router.push({ name: 'products'});
+                    })
+                    .catch(error => {
+                        vuetifyToast.error('There was an error:', error.response);
+                        console.log('There was an error:', error.response)
+                    });
+                }
+            },
+            ...mapActions(['fetchProduct']) // map `this.fetchProduct(this.id)` to `this.$store.dispatch('fetchProduct', this.id)`
+        },
+        props: {
+            id: {
+                type:Number,
+                required:true
+            }
+        },
+        created() {
+            this.fetchProduct(this.id);
+        }
+    }
+</script>
+
+<style lang="scss" scoped>
+
+</style>
